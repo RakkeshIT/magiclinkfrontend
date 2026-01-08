@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,8 +11,6 @@ import axios from "axios";
 import {LogOut} from 'lucide-react'
 import { coreAPI } from "../../../utils/coreAPI";
 const Dashboard = () => {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
   const router = useRouter()
 
   const Logout = async() => {
