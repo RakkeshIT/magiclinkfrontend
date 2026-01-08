@@ -9,13 +9,14 @@ import Typography from "@mui/material/Typography";
 import DotGrid from "../../components/DotGrid";
 import axios from "axios";
 import {LogOut} from 'lucide-react'
+import { coreAPI } from "../../../utils/coreAPI";
 const Dashboard = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const router = useRouter()
 
   const Logout = async() => {
-    await axios.post('http://localhost:5000/logout', {}, {withCredentials: true})
+    await coreAPI.post('/logout', {})
     router.push('/user-auth')
   }
   

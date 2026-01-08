@@ -12,13 +12,14 @@ import Image from "next/image";
 import Divider from "@mui/material/Divider";
 import axios from 'axios'
 import { useRouter } from "next/navigation";
+import { coreAPI } from "../../../../utils/coreAPI";
 const UserAuth = () => {
   const [email, setEmail] = useState('')
   const router = useRouter()
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/login', {email}, {withCredentials: true})
+      const res = await coreAPI.post('/login', {email})
 
     } catch (error) {
       console.log(error)
