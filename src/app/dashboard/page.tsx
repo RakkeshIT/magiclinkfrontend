@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import DotGrid from "../../components/DotGrid";
 import axios from "axios";
 import {LogOut} from 'lucide-react'
-import { coreAPI } from "../../../utils/coreAPI";
+import { coreAPI } from "../../utils/coreAPI";
 const Dashboard = () => {
   const router = useRouter()
 

@@ -12,7 +12,7 @@ import Image from "next/image";
 import Divider from "@mui/material/Divider";
 import axios from 'axios'
 import { useRouter } from "next/navigation";
-import { coreAPI } from "../../../../utils/coreAPI";
+import { coreAPI } from "../../../utils/coreAPI";
 const UserAuth = () => {
   const [email, setEmail] = useState('')
   const router = useRouter()
