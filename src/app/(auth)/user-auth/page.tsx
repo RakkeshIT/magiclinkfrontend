@@ -1,3 +1,4 @@
+'use client'
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -5,11 +6,24 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../../../public/logo.png";
 import Image from "next/image";
 import Divider from "@mui/material/Divider";
+import axios from 'axios'
+import { useRouter } from "next/navigation";
 const UserAuth = () => {
+  const [email, setEmail] = useState('')
+  const router = useRouter()
+
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post('http://localhost:5000/login', {email}, {withCredentials: true})
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <Box
       sx={{
@@ -65,7 +79,7 @@ const UserAuth = () => {
         </Typography>
 
         {/* Email Field */}
-        <TextField label="Email address" type="email" autoFocus />
+        <TextField label="Email address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoFocus />
 
         {/* CTA */}
         <Button
@@ -79,6 +93,7 @@ const UserAuth = () => {
             textTransform: "none",
             fontWeight: 500,
           }}
+          onClick={handleSubmit}
         >
           Continue
         </Button>
