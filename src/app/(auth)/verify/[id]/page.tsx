@@ -11,9 +11,9 @@ const Varify = () => {
       try {
         const res = await coreAPI.get(`/verify/${id}`);
         if (res.status !== 201) {
-          router.replace("/user-auth");
+          router.push("/user-auth");
         } else {
-          router.replace("/dashboard"); 
+          router.push("/dashboard"); 
         }
       } catch (error) {
         console.log("Verification failed:", error);
