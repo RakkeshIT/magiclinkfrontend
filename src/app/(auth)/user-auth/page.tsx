@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -10,21 +10,27 @@ import React, { useState } from "react";
 import Logo from "../../../../public/logo.png";
 import Image from "next/image";
 import Divider from "@mui/material/Divider";
-import axios from 'axios'
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { coreAPI } from "../../../utils/coreAPI";
+import { Dialog } from "@/components/Dialog";
+
 const UserAuth = () => {
-  const [email, setEmail] = useState('')
-  const router = useRouter()
+  const [email, setEmail] = useState("");
+  const [showDialog, setShowDialog] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async () => {
     try {
-      const res = await coreAPI.post('/login', {email})
+      const res = await coreAPI.post("/login", { email });
+      setShowDialog(true);
 
     } catch (error) {
-      console.log(error)
+      console.log(error);
+    } finally {
+      setShowDialog(false);
     }
-  }
+  };
   return (
     <Box
       sx={{
@@ -35,6 +41,7 @@ const UserAuth = () => {
         bgcolor: "#fafafa",
       }}
     >
+
       <Box
         sx={{
           width: "100%",
@@ -44,14 +51,14 @@ const UserAuth = () => {
           flexDirection: "column",
           gap: 2.5,
           backgroundColor: "rgba(255, 255, 255, 0.15)", // semi-transparent
-    backdropFilter: "blur(20px)",
-    WebkitBackdropFilter: "blur(20px)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
 
-    borderRadius: "20px",
-    border: "1px solid rgba(255, 255, 255, 0.3)",
+          borderRadius: "20px",
+          border: "1px solid rgba(255, 255, 255, 0.3)",
 
-    // Shadows
-    boxShadow: `
+          // Shadows
+          boxShadow: `
       0 8px 32px rgba(0, 0, 0, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.5),
       inset 0 -1px 0 rgba(255, 255, 255, 0.1),
@@ -80,7 +87,13 @@ const UserAuth = () => {
         </Typography>
 
         {/* Email Field */}
-        <TextField label="Email address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoFocus />
+        <TextField
+          label="Email address"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoFocus
+        />
 
         {/* CTA */}
         <Button
@@ -103,29 +116,28 @@ const UserAuth = () => {
         <Typography variant="caption" textAlign="center" color="text.secondary">
           We’ll email you a one-time login link. No password required.
         </Typography>
-      <Divider>
-        <Box
-          sx={{
-            color: "text.secondary",
-            fontWeight: 500,
-            px: 2,
-            bgcolor: "#fafafa",
-          }}
-        >
-          OR
+        <Divider>
+          <Box
+            sx={{
+              color: "text.secondary",
+              fontWeight: 500,
+              px: 2,
+              bgcolor: "#fafafa",
+            }}
+          >
+            OR
+          </Box>
+        </Divider>
+
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Button variant="outlined">Google</Button>
+          <Button variant="outlined">Phone Number</Button>
         </Box>
-      </Divider>
-
-      <Box sx={{display: 'flex', flexDirection: 'column', gap: 2}}>
-        <Button variant="outlined">
-            Google
-        </Button>
-        <Button variant="outlined">
-            Phone Number
-        </Button>
-      </Box>
       </Box>
 
+            {showDialog && (
+        <Dialog name="Mail Sent" title="Please Check Your Mail Id" />
+      )}
     </Box>
   );
 };
