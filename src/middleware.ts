@@ -3,8 +3,8 @@ import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
   // Get token from cookies
-  const token = req.cookies.get("auth-cookie")?.value;
-  console.log("Middleware :", token , req.cookies.get("auth-cookie")?.value);
+  const token = req.cookies.get("auth_token")?.value;
+  console.log("Middleware :", token );
   // 🚫 Not logged in → block protected routes
   if (!token ) {
     return NextResponse.redirect(
@@ -18,6 +18,5 @@ export const config = {
   matcher: [
     "/dashboard",
     "/dashboard/:path*",
-    "/verify/:path*",
   ],
 };
