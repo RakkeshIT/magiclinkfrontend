@@ -13,7 +13,7 @@ export function middleware(req: NextRequest) {
   // 🚫 Not logged in → block protected routes
   if (!token && isProtectedRoute) {
     return NextResponse.redirect(
-      new URL("/sign-in", req.url)
+      new URL("/user-auth", req.url)
     );
   }
 
