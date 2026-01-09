@@ -10,14 +10,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-export const Dialog: React.FC<any> = ({ name, title }) => {
+export const Dialog: React.FC<any> = ({ name, title, open, openChange }) => {
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <button type="button" className="btn">
-          Open
-        </button>
-      </AlertDialogTrigger>
+    <AlertDialog open={open} onOpenChange={openChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{name}</AlertDialogTitle>

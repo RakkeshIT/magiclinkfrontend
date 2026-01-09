@@ -1,36 +1,23 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import jwt from "jsonwebtoken";
 
 export function middleware(req: NextRequest) {
-  // Get token from cookies
   const token = req.cookies.get("auth-cookie")?.value;
-  
   const isAuthPage = req.nextUrl.pathname.startsWith("/user-auth");
-  const isVerifyPage = req.nextUrl.pathname.startsWith("/verify");
   const isProtectedRoute = req.nextUrl.pathname.startsWith("/dashboard");
 
-  // 🚫 Not logged in → block protected routes
-  if (!token && isProtectedRoute) {
-    return NextResponse.redirect(
-      new URL("/user-auth", req.url)
-    );
+  try {
+    if (token) jwt.verify(token, process.env.JWT_SECRET!);
+  } catch {
+    if (isProtectedRoute) return NextResponse.redirect(new URL("/user-auth", req.url));
   }
 
-  // 🔁 Logged in → prevent access to auth pages
-  if (token && (isAuthPage || isVerifyPage)) {
-    return NextResponse.redirect(
-      new URL("/dashboard", req.url)
-    );
-  }
+  if (token && isAuthPage) return NextResponse.redirect(new URL("/dashboard", req.url));
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    "/dashboard",
-    "/dashboard/:path*",
-    "/user-auth",
-    "/verify/:path*",
-  ],
+  matcher: ["/dashboard/:path*", "/dashboard", "/user-auth"],
 };
