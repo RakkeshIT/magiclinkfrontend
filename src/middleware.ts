@@ -11,9 +11,11 @@ export function middleware(req: NextRequest) {
   console.log("Middleware executed for:", req.nextUrl.pathname);
   console.log("Middleware :", token , req.cookies.get("auth-cookie")?.value);
   // 🚫 Not logged in → block protected routes
-  if (token && req.nextUrl.pathname === "/login") {
-  return NextResponse.redirect(new URL("/dashboard", req.url));
-}
+  if (!token && isProtectedRoute) {
+    return NextResponse.redirect(
+      new URL("/sign-in", req.url)
+    );
+  }
 
 
   // 🔁 Logged in → prevent access to auth pages
