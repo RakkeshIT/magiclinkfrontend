@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-// @ts-ignore
 
 export function middleware(req: NextRequest) {
+  // Get token from cookies
   const token = req.cookies.get("auth-cookie")?.value;
-  console.log("Middleware Token:", token);
+  
   const isAuthPage = req.nextUrl.pathname.startsWith("/user-auth");
+  const isVerifyPage = req.nextUrl.pathname.startsWith("/verify");
   const isProtectedRoute = req.nextUrl.pathname.startsWith("/dashboard");
 
   // 🚫 Not logged in → block protected routes
@@ -16,7 +17,7 @@ export function middleware(req: NextRequest) {
   }
 
   // 🔁 Logged in → prevent access to auth pages
-  if (token && isAuthPage) {
+  if (token && (isAuthPage || isVerifyPage)) {
     return NextResponse.redirect(
       new URL("/dashboard", req.url)
     );
@@ -30,5 +31,6 @@ export const config = {
     "/dashboard",
     "/dashboard/:path*",
     "/user-auth",
+    "/verify/:path*",
   ],
 };
