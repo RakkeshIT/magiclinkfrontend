@@ -14,7 +14,7 @@ const Dashboard = () => {
   const router = useRouter()
 
   const Logout = async() => {
-    await coreAPI.post('/logout', {})
+    await axios.delete('/api/auth/logout')
     router.push('/user-auth')
   }
   
