@@ -34,7 +34,6 @@ This project demonstrates **passwordless authentication** where users can log in
 
 [✨ Try it Online](https://magiclinkfrontend.vercel.app)  
 
-![Magic Link Login Demo](https://media.giphy.com/media/3ohzdYJK1wAdPWVk88/giphy.gif)  
 *Example flow: login → verification → dashboard*
 
 ---
@@ -60,3 +59,29 @@ This project demonstrates **passwordless authentication** where users can log in
 ```bash
 git clone https://github.com/yourusername/magiclink-frontend.git
 cd magiclink-frontend
+
+npm install
+# or
+yarn
+
+ENV File
+---------------------
+NODE_ENV=developement
+NEXT_PUBLIC_BASE_URL_DEVELOPMENT=http://localhost:5000
+NEXT_PUBLIC_BASE_URL=https://mgiclinkserver.vercel.app [Your Live URL]
+
+
+🔑 How It Works
+1️⃣ User enters email → backend sends a magic link
+2️⃣ User clicks the link → navigates to /verify/:id
+3️⃣ Frontend verifies token → receives JWT accessToken
+4️⃣ Frontend sets httpOnly cookie via /api/auth/set-cookie
+5️⃣ Middleware protects pages → only logged-in users can access /dashboard
+
+
+Flow diagram: magic link → verification → cookie → protected dashboard
+
+💻 Author
+
+## Rakkesh Kumar J – MERN Stack Developer
+
