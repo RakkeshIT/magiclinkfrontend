@@ -57,7 +57,7 @@ This project demonstrates **passwordless authentication** where users can log in
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/magiclink-frontend.git
+git clone https://github.com/RakkeshIT/magiclinkfrontend.git
 cd magiclink-frontend
 
 npm install
@@ -79,9 +79,9 @@ NEXT_PUBLIC_BASE_URL=https://mgiclinkserver.vercel.app [Your Live URL]
 5️⃣ Middleware protects pages → only logged-in users can access /dashboard
 
 
-Flow diagram: magic link → verification → cookie → protected dashboard
+Flow diagram: magic link → verification → cookie → protected dashboard 
 
-💻 Author
+💻 Author 
 
-## Rakkesh Kumar J – MERN Stack Developer
+Rakkesh Kumar J – MERN Stack Developer
 
