@@ -1,34 +1,23 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import Box from "@mui/material/Box";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 import DotGrid from "../../components/DotGrid";
 import axios from "axios";
-import {LogOut} from 'lucide-react'
-import { coreAPI } from "../../utils/coreAPI";
-const Dashboard = () => {
-  const router = useRouter()
+import DashboardLayout from "@/components/Dashboard";
 
-  const Logout = async() => {
-    await axios.delete('/api/auth/logout')
-    router.push('/user-auth')
-  }
-  
+const Dashboard = () => {
+  const router = useRouter();
+
+  const Logout = async () => {
+    await axios.delete("/api/auth/logout");
+    router.push("/user-auth");
+  };
+
   return (
-    <>
-      <div
-        style={{
-          minHeight: "100vh",
-          width: "100%",
-          height: 600,
-          position: "relative",
-          background: "#000000",
-        }}
-      >
+    <div className="relative min-h-screen w-full bg-[#080a0f] overflow-hidden">
+
+      {/* ── DotGrid — faded background layer ── */}
+      <div className="absolute inset-0 z-0 opacity-50 pointer-events-none">
         <DotGrid
           dotSize={2}
           gap={15}
@@ -40,29 +29,14 @@ const Dashboard = () => {
           resistance={750}
           returnDuration={1.5}
         />
-        <Box
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            color: "#FFFFFF",
-            textAlign: "center",
-          }}
-        >
-          <h1 style={{ fontSize: "48px", marginBottom: "20px" }}>
-            Welcome to Your Dashboard
-          </h1>
-          <p style={{ fontSize: "24px" }}>
-            Experience the future of authentication
-          </p>
-          <button onClick={Logout} className="cursor-pointer">
-             <LogOut/>
-          </button>
-          
-        </Box>
       </div>
-    </>
+
+      {/* ── Content layer — sits above the dots ── */}
+      <div className="relative z-10">
+        <DashboardLayout Logout={Logout} />
+      </div>
+
+    </div>
   );
 };
 
