@@ -1,11 +1,16 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import DotGrid from "../../components/DotGrid";
 import axios from "axios";
 import DashboardLayout from "@/components/Dashboard";
 
 const Dashboard = () => {
+   // Dynamic Title
+   useEffect(() => {
+    document.title = "Your Dashboard"
+  }, [])
+  
   const router = useRouter();
 
   const Logout = async () => {

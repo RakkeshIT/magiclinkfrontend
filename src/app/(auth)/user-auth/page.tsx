@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../../../public/logo.png";
 import Image from "next/image";
 import Divider from "@mui/material/Divider";
@@ -18,6 +18,12 @@ import { SpinnerCustom } from "@/components/ui/spinner";
 import { title } from "process";
 
 const UserAuth = () => {
+
+  // Dynamic Title
+  useEffect(() => {
+    document.title = "Auth Page"
+  },[])
+  
   const [email, setEmail] = useState("");
   const [showDialog, setShowDialog] = useState(false);
   const [loading, setLoading] = useState(false);
