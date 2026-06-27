@@ -9,8 +9,10 @@ export function middleware(req: NextRequest) {
   if (!token ) {
     return NextResponse.redirect(
       new URL("/user-auth", req.url)
-    );
+    );  
   }
+
+  
   return NextResponse.next();
 }
 
@@ -18,5 +20,6 @@ export const config = {
   matcher: [
     "/dashboard",
     "/dashboard/:path*",
+    "/groq-form"
   ],
 };

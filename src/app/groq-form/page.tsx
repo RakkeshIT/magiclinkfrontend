@@ -4,6 +4,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { interviewData, interviewSchema } from "../config/zod/interview.schema";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { coreAPI } from "@/utils/coreAPI";
+import { toast } from "react-toastify";
 const BrainIcon = () => (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-1.96-3 2.5 2.5 0 0 1-1.32-4.24 3 3 0 0 1 .34-5.58 2.5 2.5 0 0 1 1.32-4.24A2.5 2.5 0 0 1 9.5 2" />
@@ -39,7 +40,7 @@ export default function DashboardPage() {
     useEffect(() => {
         document.title = "GROQ AI"
     }, [])
-    
+
     const [loading, setLoading] = useState(false);
 
     const { register, handleSubmit, control, formState: { errors } } = useForm<interviewData>(
@@ -62,10 +63,11 @@ export default function DashboardPage() {
             const res = await coreAPI.post('/api/q-groq', { data })
             if (res.status === 200) {
                 console.log("Q Generated Success");
+                toast.success("Your Queation is Generated Successfully")
             }
         } catch (error) {
             console.log(error);
-
+            toast.error("Something went wrong Please Call Admin rakkeshit@gmail.com")
         } finally {
             setLoading(false)
         }
@@ -126,6 +128,11 @@ export default function DashboardPage() {
                                             <ChevronIcon />
                                         </div>
                                     </div>
+                                    {errors.role && (
+                                        <p className="text-red-400 text-sm mt-1">
+                                            {errors.role.message}
+                                        </p>
+                                    )}
                                 </div>
 
                                 {/* Experience */}
@@ -147,6 +154,12 @@ export default function DashboardPage() {
                                             <ChevronIcon />
                                         </div>
                                     </div>
+
+                                    {errors.experience && (
+                                        <p className="text-red-400 text-sm mt-1">
+                                            {errors.experience.message}
+                                        </p>
+                                    )}
                                 </div>
 
                                 {/* Difficulty — pill selector */}
@@ -171,8 +184,8 @@ export default function DashboardPage() {
                                                                 type="button"
                                                                 onClick={() => field.onChange(d)}
                                                                 className={`flex items-center justify-center gap-2 py-2.5 rounded-xl border text-sm font-medium transition-all duration-200 ${active
-                                                                        ? `${meta.bg} ${meta.color} border-current`
-                                                                        : "bg-white/[0.03] border-white/[0.08] text-slate-500 hover:border-white/20 hover:text-slate-300"
+                                                                    ? `${meta.bg} ${meta.color} border-current`
+                                                                    : "bg-white/[0.03] border-white/[0.08] text-slate-500 hover:border-white/20 hover:text-slate-300"
                                                                     }`}
                                                             >
                                                                 <span className={`w-1.5 h-1.5 rounded-full ${active ? meta.dot : "bg-slate-600"}`} />
@@ -185,6 +198,12 @@ export default function DashboardPage() {
 
                                         }}
                                     />
+
+                                    {errors.difficulty && (
+                                        <p className="text-red-400 text-sm mt-1">
+                                            {errors.difficulty.message}
+                                        </p>
+                                    )}
                                 </div>
 
                                 {/* Number of questions */}
@@ -200,14 +219,20 @@ export default function DashboardPage() {
                                         placeholder="e.g. 10"
                                         className="w-full bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.15] focus:border-violet-500/60 focus:ring-1 focus:ring-violet-500/30 text-sm text-slate-200 placeholder-slate-600 rounded-xl px-4 py-3 outline-none transition-all duration-200"
                                     />
+
+                                    {errors.numberOfQuestions && (
+                                        <p className="text-red-400 text-sm mt-1">
+                                            {errors.numberOfQuestions.message}
+                                        </p>
+                                    )}
                                 </div>
 
                                 {/* Generate button */}
                                 <button
                                     type="submit"
                                     className={`w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl text-sm font-semibold transition-all duration-200 mt-2 ${!loading
-                                            ? "bg-gradient-to-r from-violet-600 to-blue-500 text-white hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(124,58,237,0.4)] active:translate-y-0"
-                                            : "bg-white/    [0.04] text-slate-600 border border-white/[0.06] cursor-not-allowed"
+                                        ? "bg-gradient-to-r from-violet-600 to-blue-500 text-white hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(124,58,237,0.4)] active:translate-y-0"
+                                        : "bg-white/    [0.04] text-slate-600 border border-white/[0.06] cursor-not-allowed"
                                         }`}
                                 >
                                     {loading ? (

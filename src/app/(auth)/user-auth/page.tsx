@@ -16,6 +16,7 @@ import { coreAPI } from "../../../utils/coreAPI";
 import { Dialog } from "@/components/Dialog";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { title } from "process";
+import {toast} from 'react-toastify'
 
 const UserAuth = () => {
 
@@ -49,6 +50,7 @@ const UserAuth = () => {
       }
     } catch (error) {
       console.log(error);
+      toast.error("Somethink wen wrong!!! Please Contact Admin.... [rakkeshit@gmail.com]")
     } finally {
       setLoading(false);
     }
