@@ -14,14 +14,30 @@ const Varify = () => {
         const res = await coreAPI.get(`/verify/${id}`);
         const data = res.data
         console.log("Response from verification API:", res);
+
         if (!data.accessToken) {
+          console.log("Access Not Did not come");
+          
           router.push("/user-auth");
         }
-        // If verification is successful, redirect to dashboard
-        // ✅ STORE IN LOCALSTORAGE (not cookie)
+
+        if (!data.success || !data.accessToken) {
+          router.push("/user-auth");
+          return;
+        }
+
+        // // If verification is successful, redirect to dashboard
+        // // ✅ STORE IN LOCALSTORAGE (not cookie)
+        // const cookieRes = await axios.post('/api/auth/set-cookies', { accessToken: data.accessToken });
         localStorage.setItem('auth_token', data.accessToken);
         console.log("Token stored in localStorage");
-        await axios.post('/api/auth/set-cookies', { accessToken: data.accessToken });
+        // console.log("Cookie API Response: ", cookieRes.data);
+
+        // // check cookie was set
+        // console.log("Document cookie: ", document.cookie);
+        // console.log("Auth Token: ", document.cookie.includes("auth_token"));
+        
+          
         router.push("/dashboard");
       } catch (error) {
         console.log("Verification failed:", error);
