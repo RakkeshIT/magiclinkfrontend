@@ -14,6 +14,7 @@ const Dashboard = () => {
   const router = useRouter();
 
   const Logout = async () => {
+    localStorage.removeItem('auth_token')
     await axios.delete("/api/auth/logout");
     router.push("/user-auth");
   };
