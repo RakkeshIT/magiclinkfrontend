@@ -21,7 +21,7 @@ const Varify = () => {
         // ✅ STORE IN LOCALSTORAGE (not cookie)
         localStorage.setItem('auth_token', data.accessToken);
         console.log("Token stored in localStorage");
-        // await axios.post('/api/auth/set-cookies', { accessToken: data.accessToken });
+        await axios.post('/api/auth/set-cookies', { accessToken: data.accessToken });
         router.push("/dashboard");
       } catch (error) {
         console.log("Verification failed:", error);
