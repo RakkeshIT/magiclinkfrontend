@@ -8,7 +8,7 @@ const Varify = () => {
   const router = useRouter();
   const { id } = useParams();
   useEffect(() => {
-    if(!id) return;
+    if (!id) return;
     const verifyAuth = async () => {
       try {
         const res = await coreAPI.get(`/verify/${id}`);
@@ -18,7 +18,10 @@ const Varify = () => {
           router.push("/user-auth");
         }
         // If verification is successful, redirect to dashboard
-        await axios.post('/api/auth/set-cookies', { accessToken: data.accessToken });
+        // ✅ STORE IN LOCALSTORAGE (not cookie)
+        localStorage.setItem('auth_token', data.accessToken);
+        console.log("Token stored in localStorage");
+        // await axios.post('/api/auth/set-cookies', { accessToken: data.accessToken });
         router.push("/dashboard");
       } catch (error) {
         console.log("Verification failed:", error);
