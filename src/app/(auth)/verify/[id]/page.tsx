@@ -28,10 +28,10 @@ const Varify = () => {
 
         // // If verification is successful, redirect to dashboard
         // // ✅ STORE IN LOCALSTORAGE (not cookie)
-        // const cookieRes = await axios.post('/api/auth/set-cookies', { accessToken: data.accessToken });
         localStorage.setItem('auth_token', data.accessToken);
         console.log("Token stored in localStorage");
-        // console.log("Cookie API Response: ", cookieRes.data);
+        const cookieRes = await axios.post('/api/auth/set-cookies', { accessToken: data.accessToken });
+        console.log("Cookie API Response: ", cookieRes.data);
 
         // // check cookie was set
         // console.log("Document cookie: ", document.cookie);
