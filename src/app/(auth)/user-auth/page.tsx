@@ -17,6 +17,9 @@ import { Dialog } from "@/components/Dialog";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { title } from "process";
 import {toast} from 'react-toastify'
+import { useForm } from "react-hook-form";
+import { AuthDataType, authSchema } from "@/app/config/zod/auth.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const UserAuth = () => {
 
@@ -25,7 +28,10 @@ const UserAuth = () => {
     document.title = "Auth Page"
   },[])
   
-  const [email, setEmail] = useState("");
+  const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<AuthDataType>({
+    resolver: zodResolver(authSchema)
+  })
+
   const [showDialog, setShowDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [emailDialog, setEmailDialog] = useState({
@@ -40,10 +46,10 @@ const UserAuth = () => {
   });
   const router = useRouter();
 
-  const handleSubmit = async () => {
+  const handleSubmits = async (data: AuthDataType) => {
     setLoading(true);
     try {
-      const res = await coreAPI.post("/login", { email });
+      const res = await coreAPI.post("/login", data);
       if (res.status === 201) {
         setEmailDialog((prev) => ({...prev, isOpen: true}))
         setShowDialog(true);
@@ -60,11 +66,13 @@ const UserAuth = () => {
     setButton((prev) => ({...prev, isOpen: true}))
     setShowDialog(true);
   };
+  
   return (
     <>
       {loading && (
         <SpinnerCustom className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 " />
       )}
+      <form onSubmit={handleSubmit(handleSubmits)}>
       <Box
         sx={{
           minHeight: "100vh",
@@ -125,15 +133,22 @@ const UserAuth = () => {
           <TextField
             label="Email address"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register("email")}
             autoFocus
           />
 
+          <div>
+            {errors.email && (
+              <p className="text-red-500 text-lg">{errors.email.message}</p>
+            )}
+          </div>
+
           {/* CTA */}
           <Button
+            type="submit"
             variant="outlined"
             color="secondary"
+            disabled={isSubmitting}
             size="large"
             sx={{
               mt: 1,
@@ -142,9 +157,8 @@ const UserAuth = () => {
               textTransform: "none",
               fontWeight: 500,
             }}
-            onClick={handleSubmit}
           >
-            Continue
+            { isSubmitting ? "Please Wait.." : "Continue"}
           </Button>
 
           {/* Helper text */}
@@ -187,6 +201,7 @@ const UserAuth = () => {
           />
         )}
       </Box>
+      </form>
     </>
   );
 };
